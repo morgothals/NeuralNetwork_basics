@@ -130,6 +130,8 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.simplemapmlp-env
+simplemapmlp-env/
 env/
 venv/
 ENV/
