@@ -50,6 +50,32 @@ def classify_tile(tile_rgb):
     return -1  # nem egyértelmű
 
 
+# Szín-címke megfeleltetés (csak ahol leírás volt)
+CLASS_COLOR_MAP = {
+    (255, 255, 255): 0,  # Jól futható erdő
+    (62, 255, 23): 1,    # Leküzdhető növényzet
+    (197, 255, 186): 2,  # Lassan futható erdő
+    (139, 255, 116): 3,  # Nehezen futható erdő
+    (255, 204, 104): 4,  # Nyílt terület (alap)
+    (255, 187, 54): 5,   # Nyílt terület (erősebb)
+    (255, 221, 155): 6,  # Durva nyílt terület
+    (128, 255, 255): 7,  # Sekély vízfelület
+    (0, 255, 255): 8,    # Áthatolhatatlan vízfelület
+   # (0, 0, 0): 9         # Fekete – utak, sziklák
+}
+
+def classify_tile_exact(tile_rgb):
+    """
+    Meghatározza a tile leggyakoribb színét, és az előre definiált címkéhez rendeli.
+    """
+    rgb_data = np.array(tile_rgb).reshape(-1, 3)
+    rgb_tuples = [tuple(pixel) for pixel in rgb_data]
+    most_common_rgb, _ = Counter(rgb_tuples).most_common(1)[0]
+
+    return CLASS_COLOR_MAP.get(most_common_rgb, -1)
+
+
+
 def generate_dataset(image_path, output_path, tile_size=16):
     image = Image.open(image_path).convert('RGBA')
     w, h = image.size
@@ -65,7 +91,7 @@ def generate_dataset(image_path, output_path, tile_size=16):
             if np.all(alpha == 0):
                 continue  # kihagyjuk az üres területeket
 
-            label = classify_tile(tile.convert('RGB'))
+            label = classify_tile_exact(tile.convert('RGB'))
             if label != -1:
                 tiles.append(np.array(tile.convert('RGB')))
                 labels.append(label)
@@ -79,6 +105,6 @@ def generate_dataset(image_path, output_path, tile_size=16):
 
 # Használat:
 generate_dataset(
-    image_path='data/raw/terkep_vagasra_1.png',
-    output_path='data/processed/dataset.npz'
+    image_path='data/raw/tajfuto_normalized.png',
+    output_path='data/processed/dataset_preProcessed.npz'
 )
