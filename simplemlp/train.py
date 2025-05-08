@@ -3,7 +3,7 @@
 # simplemlp/train.py
 import numpy as np
 #from simplemlp.model import SimpleMLP
-from model import SimpleMLP
+from .model import SimpleMLP
 from sklearn.model_selection import train_test_split
 
 # Dataset betöltése

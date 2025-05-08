@@ -1,6 +1,6 @@
 # simplemlp/model.py
 #from simplemlp.layers import Dense, ReLU, Softmax, cross_entropy, cross_entropy_grad
-from layers import Dense, ReLU, Softmax, cross_entropy, cross_entropy_grad
+from .layers import Dense, ReLU, Softmax, cross_entropy, cross_entropy_grad
 import numpy as np
 
 class SimpleMLP:
