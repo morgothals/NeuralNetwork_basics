@@ -3,51 +3,52 @@ import numpy as np
 from PIL import Image
 from collections import Counter
 
-# RGB színhatárok különböző osztályokhoz
-def classify_tile(tile_rgb):
-    rgb_data = np.array(tile_rgb).reshape(-1, 3)  # (256, 3)
-    rgb_tuples = [tuple(pixel) for pixel in rgb_data]
-    most_common_rgb, _ = Counter(rgb_tuples).most_common(1)[0]
-    r, g, b = most_common_rgb
 
-    # Fehér: jól futható erdő
-    if r > 235 and g > 235 and b > 235:
-        return 0
+# # RGB színhatárok különböző osztályokhoz
+# def classify_tile(tile_rgb):
+#     rgb_data = np.array(tile_rgb).reshape(-1, 3)  # (256, 3)
+#     rgb_tuples = [tuple(pixel) for pixel in rgb_data]
+#     most_common_rgb, _ = Counter(rgb_tuples).most_common(1)[0]
+#     r, g, b = most_common_rgb
 
-    # Zöld árnyalatok: futhatóság szerint
+#     # Fehér: jól futható erdő
+#     if r > 235 and g > 235 and b > 235:
+#         return 0
+
+#     # Zöld árnyalatok: futhatóság szerint
    
-    if g > 230 and 210 > r > 180 and 200 > b > 160:
-        return 1  # világos zöld – jól futható erdőaljnövényzet
-    elif g > 210 and 160 > r >= 105 and 135 > b >= 80:
-        return 2  # közép zöld – lassabb futhatóság
-    elif g > 205 and 40 < r < 80 and b < 40:
-        return 3  # sötét zöld – bozót, nagyon rossz futhatóság
+#     if g > 230 and 210 > r > 180 and 200 > b > 160:
+#         return 1  # világos zöld – jól futható erdőaljnövényzet
+#     elif g > 210 and 160 > r >= 105 and 135 > b >= 80:
+#         return 2  # közép zöld – lassabb futhatóság
+#     elif g > 205 and 40 < r < 80 and b < 40:
+#         return 3  # sötét zöld – bozót, nagyon rossz futhatóság
     
-     # Halvány Sárga: durva nyílt terület
-    elif r> 240 and g > 200 and 140 < b < 180: 
-        return 9
+#      # Halvány Sárga: durva nyílt terület
+#     elif r> 240 and g > 200 and 140 < b < 180: 
+#         return 9
 
-    # Sárga: nyílt terület
-    elif r > 240 and 220 >g > 170 and 60 < b < 100:
-        return 4
+#     # Sárga: nyílt terület
+#     elif r > 240 and 220 >g > 170 and 60 < b < 100:
+#         return 4
 
-    # Kék: vízfelület
-    elif b > 150 and b > r and b > g:
-        return 5
+#     # Kék: vízfelület
+#     elif b > 150 and b > r and b > g:
+#         return 5
 
-    # Fekete: utak, szikla
-    elif r < 20 and g < 20 and b < 20:
-        return 6
+#     # Fekete: utak, szikla
+#     elif r < 20 and g < 20 and b < 20:
+#         return 6
 
-    # Bíbor/lila: tiltott terület, pályajel
-    elif r > 150 and b > 150 and g < 100:
-        return 7
+#     # Bíbor/lila: tiltott terület, pályajel
+#     elif r > 150 and b > 150 and g < 100:
+#         return 7
 
-    # Barna: domborzat
-    elif 230 > r > 170 and  70 <g < 120 and b < 50:
-        return 8
+#     # Barna: domborzat
+#     elif 230 > r > 170 and  70 <g < 120 and b < 50:
+#         return 8
 
-    return -1  # nem egyértelmű
+#     return -1  # nem egyértelmű
 
 
 # Szín-címke megfeleltetés (csak ahol leírás volt)
